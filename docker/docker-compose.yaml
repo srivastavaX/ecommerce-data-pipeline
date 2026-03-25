@@ -1,0 +1,16 @@
+services:
+  db:
+    container_name: postgres_container
+    image: postgres:14.22
+    ports:
+      - '5432:5432'  # default is to match the port
+    environment:
+      POSTGRES_USER: db_user
+      POSTGRES_PASSWORD: db_password
+      POSTGRES_DB: db
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+
+volumes: 
+  postgres_data:
