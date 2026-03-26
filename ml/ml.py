@@ -1,4 +1,5 @@
 import logging
+import os
 import pandas as pd
 from sqlalchemy import text
 
@@ -12,8 +13,14 @@ from loading.db_engine import get_engine
 
 logger = logging.getLogger(__name__)
 
+# ML_OUTPUTS_DIR = os.path.join(os.path.dirname(__file__), "ml", "outputs")
+ML_OUTPUTS_DIR = "ml/outputs"
 
-# LOAD FROM POSTGRESQL
+
+# ─────────────────────────────────────────
+# Load Data from PostgreSQL
+# ─────────────────────────────────────────
+
 def load_products_from_db() -> pd.DataFrame:
     logger.info("Loading products from PostgreSQL...")
     engine = get_engine()
@@ -25,17 +32,15 @@ def load_products_from_db() -> pd.DataFrame:
     return df
 
 
-# FEATURE ENGINEERING
+# Feature Engineering
 def engineer_features(df: pd.DataFrame) -> pd.DataFrame:
     logger.info("Engineering features...")
 
     df = df.copy()
 
-    # Derived numeric features
     df["discount_amount"]  = (df["price"] * df["discount_percentage"] / 100).round(2)
     df["effective_price"]  = (df["price"] - df["discount_amount"]).round(2)
 
-    # Categorical bands
     df["price_band"] = pd.cut(
         df["price"],
         bins=[0, 50, 200, 500, float("inf")],
@@ -47,7 +52,6 @@ def engineer_features(df: pd.DataFrame) -> pd.DataFrame:
         labels=["low", "average", "good", "excellent"]
     )
 
-    # Encode categorical columns for ML
     df["category_encoded"] = df["category"].astype("category").cat.codes
     df["brand_encoded"]    = df["brand"].fillna("unknown").astype("category").cat.codes
 
@@ -55,7 +59,7 @@ def engineer_features(df: pd.DataFrame) -> pd.DataFrame:
     return df
 
 
-# PRICE PREDICTION MODEL
+# Price Prediction
 def predict_price(df: pd.DataFrame):
     logger.info("Training price prediction model...")
 
@@ -77,10 +81,22 @@ def predict_price(df: pd.DataFrame):
     r2     = r2_score(y_test, y_pred)
 
     logger.info(f"Price Prediction | MSE: {mse:.2f} | R2: {r2:.4f}")
-    return model
+
+    df_preds = pd.DataFrame({
+        "actual_price":    y_test.values,
+        "predicted_price": y_pred.round(2),
+    })
+    df_preds["residual"] = (df_preds["actual_price"] - df_preds["predicted_price"]).round(2)
+
+    df_coeff = pd.DataFrame({
+        "feature":     features,
+        "coefficient": model.coef_.round(4),
+    }).sort_values("coefficient", ascending=False)
+
+    return model, df_preds, df_coeff
 
 
-# RATING PREDICTION MODEL
+# Rating Prediction
 def predict_rating(df: pd.DataFrame):
     logger.info("Training rating prediction model...")
 
@@ -102,10 +118,27 @@ def predict_rating(df: pd.DataFrame):
     r2     = r2_score(y_test, y_pred)
 
     logger.info(f"Rating Prediction | MSE: {mse:.4f} | R2: {r2:.4f}")
-    return model
+
+    # Build predictions DataFrame for visualization
+    df_preds = pd.DataFrame({
+        "actual_rating":    y_test.values,
+        "predicted_rating": y_pred.round(4),
+    })
+    df_preds["residual"] = (df_preds["actual_rating"] - df_preds["predicted_rating"]).round(4)
+
+    # Feature coefficients for visualization
+    df_coeff = pd.DataFrame({
+        "feature":     features,
+        "coefficient": model.coef_.round(6),
+    }).sort_values("coefficient", ascending=False)
+
+    return model, df_preds, df_coeff
 
 
-# PRODUCT CLUSTERING
+# ─────────────────────────────────────────
+# Product Clustering
+# ─────────────────────────────────────────
+
 def cluster_products(df: pd.DataFrame):
     logger.info("Training product clustering model...")
 
@@ -113,19 +146,51 @@ def cluster_products(df: pd.DataFrame):
 
     df_model = df[features].dropna()
 
-    scaler     = StandardScaler()
-    X_scaled   = scaler.fit_transform(df_model)
+    scaler   = StandardScaler()
+    X_scaled = scaler.fit_transform(df_model)
 
     model = KMeans(n_clusters=4, random_state=42, n_init=10)
     model.fit(X_scaled)
 
     df.loc[df_model.index, "cluster"] = model.labels_
+    df["cluster"] = df["cluster"].astype("Int64")
+
     logger.info(f"Clustering complete. Cluster distribution:\n{df['cluster'].value_counts().to_string()}")
 
     return model, scaler, df
 
 
-# ORCHESTRATION
+# ─────────────────────────────────────────
+# Save All ML Outputs to Disk
+# ─────────────────────────────────────────
+
+def save_outputs(df: pd.DataFrame, df_price_preds: pd.DataFrame, df_price_coeff: pd.DataFrame,
+                 df_rating_preds: pd.DataFrame, df_rating_coeff: pd.DataFrame) -> None:
+    os.makedirs(ML_OUTPUTS_DIR, exist_ok=True)
+
+    # Columns to keep for the enriched product table
+    product_cols = [
+        "id", "title", "category", "brand", "price", "effective_price",
+        "discount_percentage", "discount_amount", "stock",
+        "rating", "price_band", "rating_band",
+        "category_encoded", "brand_encoded", "cluster",
+    ]
+    existing_cols = [c for c in product_cols if c in df.columns]
+    df[existing_cols].to_csv(os.path.join(ML_OUTPUTS_DIR, "products_enriched.csv"), index=False)
+
+    df_price_preds.to_csv(os.path.join(ML_OUTPUTS_DIR, "price_predictions.csv"), index=False)
+    df_price_coeff.to_csv(os.path.join(ML_OUTPUTS_DIR, "price_coefficients.csv"), index=False)
+
+    df_rating_preds.to_csv(os.path.join(ML_OUTPUTS_DIR, "rating_predictions.csv"), index=False)
+    df_rating_coeff.to_csv(os.path.join(ML_OUTPUTS_DIR, "rating_coefficients.csv"), index=False)
+
+    logger.info(f"ML outputs saved to {ML_OUTPUTS_DIR}")
+
+
+# ─────────────────────────────────────────
+# Orchestrator
+# ─────────────────────────────────────────
+
 def run_ml():
     logger.info("=" * 50)
     logger.info("ML LAYER: STARTING...")
@@ -134,9 +199,12 @@ def run_ml():
     df = load_products_from_db()
     df = engineer_features(df)
 
-    price_model              = predict_price(df)
-    rating_model             = predict_rating(df)
+    price_model,  df_price_preds,  df_price_coeff  = predict_price(df)
+    rating_model, df_rating_preds, df_rating_coeff = predict_rating(df)
     cluster_model, scaler, df = cluster_products(df)
+
+    # ── Save all outputs for the visualization layer ──
+    save_outputs(df, df_price_preds, df_price_coeff, df_rating_preds, df_rating_coeff)
 
     logger.info("=" * 50)
     logger.info("ML LAYER: COMPLETE.")

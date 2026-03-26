@@ -1,0 +1,101 @@
+id,title,category,brand,price,effective_price,discount_percentage,discount_amount,stock,rating,price_band,rating_band,category_encoded,brand_encoded,cluster
+14,Knoll Saarinen Executive Conference Chair,furniture,Knoll,499.99,489.94,2.01,10.05,26,4.88,premium,excellent,2,21,1
+15,Wooden Bathroom Sink With Mirror,furniture,Bath Trends,799.99,729.59,8.8,70.4,7,3.59,luxury,average,2,4,1
+16,Apple,groceries,,1.99,1.74,12.62,0.25,8,4.19,budget,good,3,31,1
+17,Beef Steak,groceries,,12.99,11.74,9.61,1.25,86,4.47,budget,good,3,31,2
+18,Cat Food,groceries,,8.99,8.13,9.58,0.86,46,3.13,budget,average,3,31,0
+1,Essence Mascara Lash Princess,beauty,Essence,9.99,8.94,10.48,1.05,99,2.56,budget,low,0,13,0
+2,Eyeshadow Palette with Mirror,beauty,Glamour Beauty,19.99,16.35,18.19,3.64,34,2.86,budget,low,0,18,0
+3,Powder Canister,beauty,Velvet Touch,14.99,13.51,9.84,1.48,89,4.64,budget,excellent,0,30,2
+4,Red Lipstick,beauty,Chic Cosmetics,12.99,11.41,12.16,1.58,91,4.36,budget,good,0,8,2
+5,Red Nail Polish,beauty,Nail Couture,8.99,7.96,11.44,1.03,79,4.32,budget,good,0,24,2
+6,Calvin Klein CK One,fragrances,Calvin Klein,49.99,49.05,1.89,0.94,29,4.37,budget,good,1,5,1
+7,Chanel Coco Noir Eau De,fragrances,Chanel,129.99,108.53,16.51,21.46,58,4.26,mid,good,1,7,2
+8,Dior J'adore,fragrances,Dior,89.99,76.74,14.72,13.25,98,3.8,mid,average,1,11,2
+9,Dolce Shine Eau de,fragrances,Dolce & Gabbana,69.99,69.56,0.62,0.43,4,3.96,mid,average,1,12,1
+10,Gucci Bloom Eau de,fragrances,Gucci,79.99,68.48,14.39,11.51,91,2.74,mid,low,1,19,0
+11,Annibale Colombo Bed,furniture,Annibale Colombo,1899.99,1737.16,8.57,162.83,88,4.77,luxury,excellent,2,1,2
+12,Annibale Colombo Sofa,furniture,Annibale Colombo,2499.99,2139.99,14.4,360.0,60,3.92,luxury,average,2,1,2
+13,Bedside Table African Cherry,furniture,Furniture Co.,299.99,242.72,19.09,57.27,64,2.87,premium,low,2,16,0
+19,Chicken Meat,groceries,,9.99,8.62,13.7,1.37,97,3.19,budget,average,3,31,0
+20,Cooking Oil,groceries,,4.99,4.52,9.33,0.47,10,4.8,budget,excellent,3,31,1
+21,Cucumber,groceries,,1.49,1.49,0.16,0.0,84,4.07,budget,good,3,31,1
+22,Dog Food,groceries,,10.99,9.86,10.27,1.13,71,4.55,budget,excellent,3,31,2
+23,Eggs,groceries,,2.99,2.66,11.05,0.33,9,2.53,budget,low,3,31,0
+24,Fish Steak,groceries,,14.99,14.36,4.23,0.63,74,3.78,budget,average,3,31,1
+25,Green Bell Pepper,groceries,,1.29,1.29,0.16,0.0,33,3.25,budget,average,3,31,1
+26,Green Chili Pepper,groceries,,0.99,0.98,1.0,0.01,3,3.66,budget,average,3,31,1
+27,Honey Jar,groceries,,6.99,5.98,14.4,1.01,34,3.97,budget,average,3,31,1
+28,Ice Cream,groceries,,5.49,5.01,8.69,0.48,27,3.39,budget,average,3,31,1
+29,Juice,groceries,,3.99,3.51,12.06,0.48,50,3.94,budget,average,3,31,2
+30,Kiwi,groceries,,2.49,2.11,15.22,0.38,99,4.93,budget,excellent,3,31,2
+31,Lemon,groceries,,0.79,0.71,9.7,0.08,31,3.53,budget,average,3,31,1
+32,Milk,groceries,,3.49,3.01,13.74,0.48,27,2.61,budget,low,3,31,0
+33,Mulberry,groceries,,4.99,4.35,12.87,0.64,99,4.95,budget,excellent,3,31,2
+34,Nescafe Coffee,groceries,,7.99,7.86,1.59,0.13,57,4.82,budget,excellent,3,31,1
+35,Potatoes,groceries,,2.29,2.17,5.38,0.12,13,4.81,budget,excellent,3,31,1
+36,Protein Powder,groceries,,19.99,18.47,7.59,1.52,80,4.18,budget,good,3,31,2
+37,Red Onions,groceries,,1.99,1.79,9.9,0.2,82,4.2,budget,good,3,31,2
+38,Rice,groceries,,5.99,5.43,9.29,0.56,59,3.18,budget,average,3,31,0
+39,Soft Drinks,groceries,,1.99,1.64,17.48,0.35,53,4.75,budget,excellent,3,31,2
+40,Strawberry,groceries,,3.99,3.95,1.12,0.04,46,3.08,budget,average,3,31,1
+41,Tissue Paper Box,groceries,,2.49,2.16,13.28,0.33,86,2.69,budget,low,3,31,0
+42,Water,groceries,,0.99,0.84,14.92,0.15,53,4.96,budget,excellent,3,31,2
+43,Decoration Swing,home-decoration,,59.99,53.75,10.41,6.24,47,3.16,mid,average,4,31,0
+44,Family Tree Photo Frame,home-decoration,,29.99,25.53,14.87,4.46,77,4.53,budget,excellent,4,31,2
+45,House Showpiece Plant,home-decoration,,39.99,37.01,7.46,2.98,28,4.67,budget,excellent,4,31,1
+46,Plant Pot,home-decoration,,14.99,13.96,6.84,1.03,59,3.01,budget,average,4,31,0
+47,Table Lamp,home-decoration,,49.99,46.45,7.09,3.54,9,3.55,budget,average,4,31,1
+48,Bamboo Spatula,kitchen-accessories,,7.99,7.76,2.84,0.23,37,3.27,budget,average,5,31,1
+49,Black Aluminium Cup,kitchen-accessories,,5.99,5.05,15.65,0.94,75,4.46,budget,good,5,31,2
+50,Black Whisk,kitchen-accessories,,9.99,8.97,10.24,1.02,73,3.9,budget,average,5,31,2
+51,Boxed Blender,kitchen-accessories,,39.99,37.09,7.26,2.9,9,4.56,budget,excellent,5,31,1
+52,Carbon Steel Wok,kitchen-accessories,,29.99,28.03,6.53,1.96,40,4.05,budget,good,5,31,1
+53,Chopping Board,kitchen-accessories,,12.99,11.95,8.03,1.04,14,3.7,budget,average,5,31,1
+54,Citrus Squeezer Yellow,kitchen-accessories,,8.99,7.9,12.1,1.09,22,4.63,budget,excellent,5,31,1
+55,Egg Slicer,kitchen-accessories,,6.99,5.96,14.76,1.03,40,3.09,budget,average,5,31,0
+56,Electric Stove,kitchen-accessories,,49.99,42.97,14.04,7.02,21,4.11,budget,good,5,31,1
+57,Fine Mesh Strainer,kitchen-accessories,,9.99,9.64,3.5,0.35,85,3.04,budget,average,5,31,0
+58,Fork,kitchen-accessories,,3.99,3.67,8.07,0.32,7,3.11,budget,average,5,31,1
+59,Glass,kitchen-accessories,,4.99,4.59,7.92,0.4,46,4.02,budget,good,5,31,1
+60,Grater Black,kitchen-accessories,,10.99,10.6,3.56,0.39,84,3.21,budget,average,5,31,0
+61,Hand Blender,kitchen-accessories,,34.99,29.03,17.02,5.96,84,3.86,budget,average,5,31,2
+62,Ice Cube Tray,kitchen-accessories,,5.99,5.95,0.63,0.04,13,4.71,budget,excellent,5,31,1
+63,Kitchen Sieve,kitchen-accessories,,7.99,6.48,18.91,1.51,68,3.09,budget,average,5,31,0
+64,Knife,kitchen-accessories,,14.99,12.16,18.86,2.83,7,3.26,budget,average,5,31,0
+65,Lunch Box,kitchen-accessories,,12.99,11.65,10.34,1.34,94,4.93,budget,excellent,5,31,2
+66,Microwave Oven,kitchen-accessories,,89.99,79.07,12.13,10.92,59,4.82,mid,excellent,5,31,2
+67,Mug Tree Stand,kitchen-accessories,,15.99,14.51,9.25,1.48,88,2.64,budget,low,5,31,0
+68,Pan,kitchen-accessories,,24.99,24.24,3.0,0.75,90,2.79,budget,low,5,31,0
+69,Plate,kitchen-accessories,,3.99,3.7,7.31,0.29,66,3.65,budget,average,5,31,0
+70,Red Tongs,kitchen-accessories,,6.99,5.98,14.52,1.01,82,4.42,budget,good,5,31,2
+71,Silver Pot With Glass Cap,kitchen-accessories,,39.99,37.71,5.7,2.28,40,3.22,budget,average,5,31,1
+72,Slotted Turner,kitchen-accessories,,8.99,7.79,13.35,1.2,88,3.4,budget,average,5,31,0
+73,Spice Rack,kitchen-accessories,,19.99,17.57,12.09,2.42,79,4.87,budget,excellent,5,31,2
+74,Spoon,kitchen-accessories,,4.99,4.91,1.53,0.08,59,4.03,budget,good,5,31,1
+75,Tray,kitchen-accessories,,16.99,15.72,7.48,1.27,71,4.62,budget,excellent,5,31,2
+76,Wooden Rolling Pin,kitchen-accessories,,11.99,10.82,9.75,1.17,80,2.92,budget,low,5,31,0
+79,Asus Zenbook Pro Dual Screen Laptop,laptops,Asus,1799.99,1599.47,11.14,200.52,45,3.95,luxury,average,6,3,1
+80,Huawei Matebook X Pro,laptops,Huawei,1399.99,1268.67,9.38,131.32,75,4.98,luxury,excellent,6,20,2
+81,Lenovo Yoga 920,laptops,Lenovo,1099.99,1027.94,6.55,72.05,40,2.86,luxury,low,6,22,0
+82,New DELL XPS 13 9300 Laptop,laptops,Dell,1499.99,1321.64,11.89,178.35,74,2.67,luxury,low,6,10,0
+77,Yellow Peeler,kitchen-accessories,,5.99,5.24,12.48,0.75,35,4.24,budget,good,5,31,1
+78,Apple MacBook Pro 14 Inch Space Grey,laptops,Apple,1999.99,1906.19,4.69,93.8,24,3.65,luxury,average,6,2,1
+83,Blue & Black Check Shirt,mens-shirts,Fashion Trends,29.99,25.39,15.35,4.6,38,3.64,budget,average,7,15,0
+84,Gigabyte Aorus Men Tshirt,mens-shirts,Gigabyte,24.99,24.76,0.94,0.23,90,3.18,budget,average,7,17,0
+85,Man Plaid Shirt,mens-shirts,Classic Wear,34.99,28.17,19.5,6.82,82,3.46,budget,average,7,9,0
+86,Man Short Sleeve Shirt,mens-shirts,Casual Comfort,19.99,18.62,6.83,1.37,2,2.9,budget,low,7,6,1
+87,Men Check Shirt,mens-shirts,Urban Chic,27.99,24.8,11.38,3.19,95,2.72,budget,low,7,29,0
+88,Nike Air Jordan 1 Red And Black,mens-shoes,Nike,149.99,143.81,4.12,6.18,7,4.77,mid,excellent,8,25,1
+89,Nike Baseball Cleats,mens-shoes,Nike,79.99,65.56,18.04,14.43,12,3.88,mid,average,8,25,1
+90,Puma Future Rider Trainers,mens-shoes,Puma,89.99,86.21,4.2,3.78,90,4.9,mid,excellent,8,27,2
+91,Sports Sneakers Off White & Red,mens-shoes,Off White,119.99,114.03,4.97,5.96,17,4.77,mid,excellent,8,26,1
+92,Sports Sneakers Off White Red,mens-shoes,Off White,109.99,109.95,0.04,0.04,62,4.69,mid,excellent,8,26,1
+93,Brown Leather Belt Watch,mens-watches,Fashion Timepieces,89.99,84.6,5.99,5.39,32,4.19,mid,good,9,14,1
+94,Longines Master Collection,mens-watches,Longines,1499.99,1241.39,17.24,258.6,100,3.87,luxury,average,9,23,2
+95,Rolex Cellini Date Black Dial,mens-watches,Rolex,8999.99,8200.79,8.88,799.2,40,4.97,luxury,excellent,9,28,3
+96,Rolex Cellini Moonphase,mens-watches,Rolex,12999.99,10722.39,17.52,2277.6,36,2.58,luxury,low,9,28,3
+97,Rolex Datejust,mens-watches,Rolex,10999.99,10589.69,3.73,410.3,86,3.66,luxury,average,9,28,3
+98,Rolex Submariner Watch,mens-watches,Rolex,13999.99,13292.99,5.05,707.0,55,2.69,luxury,low,9,28,3
+99,Amazon Echo Plus,mobile-accessories,Amazon,99.99,87.92,12.07,12.07,61,4.99,mid,excellent,10,0,2
+100,Apple Airpods,mobile-accessories,Apple,129.99,109.79,15.54,20.2,67,4.15,mid,good,10,2,2

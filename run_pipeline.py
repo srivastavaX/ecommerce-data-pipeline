@@ -5,11 +5,20 @@ from transformation.transformation import transform_all
 from loading.loader import load_all
 from loading.db_engine import dispose_engine
 from ml.ml import run_ml
+import os
+
+LOG_DIR = "logs"
+os.makedirs(LOG_DIR, exist_ok=True)
+LOG_FILE = os.path.join(LOG_DIR, "pipeline.log")
 
 logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s | %(levelname)-8s | %(message)s",
     datefmt="%Y-%m-%d %H:%M:%S",
+    handlers=[
+        logging.FileHandler(LOG_FILE),
+        logging.StreamHandler()
+    ]
 )
 logger = logging.getLogger(__name__)
 
@@ -32,7 +41,9 @@ if __name__ == "__main__":
         )
 
         # ── Step 4: Machine Learning ──────────────────────────────
-        ml_results = run_ml()
+        # ml_results = run_ml()
+
+        # Visualization
 
     except Exception as e:
         logger.error(f"PIPELINE FAILED: {e}")

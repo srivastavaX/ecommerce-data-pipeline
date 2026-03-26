@@ -11,11 +11,11 @@ logger = logging.getLogger(__name__)
 
 API_URL = "https://dummyjson.com"
 
-def fetch_data(endpoint):
+def fetch_data(endpoint, timeout=10):
     url = f"{API_URL}/{endpoint}?limit=100&skip=0"
     
     try:
-        response = requests.get(url)
+        response = requests.get(url, timeout=timeout)
         response.raise_for_status()
         data = response.json()
 
