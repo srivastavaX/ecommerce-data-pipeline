@@ -1,6 +1,6 @@
 import requests
 import logging
-from config.settings import API_URL
+# from config.settings import API_URL
 
 logging.basicConfig(
     level=logging.INFO,
@@ -9,8 +9,10 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
+API_URL = "https://dummyjson.com"
+
 def fetch_data(endpoint):
-    url = f"{API_URL}/{endpoint}"
+    url = f"{API_URL}/{endpoint}?limit=100&skip=0"
     
     try:
         response = requests.get(url)

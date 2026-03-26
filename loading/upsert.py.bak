@@ -9,9 +9,7 @@ def upsert_dataframe(df, table_name, pk_column, engine):
         logger.info("DATAFRAME IS EMPTY. NO RECORDS TO UPSERT.")
         return
 
-    base_name     = table_name.split(".")[-1]  # "raw.users" → "users"
-    staging_table = f"{base_name}_staging"     # → "users_staging" (in public schema)
-
+    staging_table  = f"{table_name}_staging"
     columns        = df.columns.tolist()
     update_columns = [c for c in columns if c != pk_column]
 
@@ -27,11 +25,14 @@ def upsert_dataframe(df, table_name, pk_column, engine):
     """
 
     with engine.begin() as conn:
+        # Step 1: load into staging
         logger.info(f"LOADING {len(df)} RECORDS INTO STAGING TABLE '{staging_table}'...")
         df.to_sql(staging_table, con=conn, if_exists="replace", index=False)
 
+        # Step 2: upsert from staging → target
         logger.info(f"PERFORMING UPSERT INTO TARGET TABLE '{table_name}'...")
         conn.execute(text(upsert_sql))
 
+        # Step 3: drop staging
         conn.execute(text(f"DROP TABLE IF EXISTS {staging_table}"))
         logger.info(f"UPSERT COMPLETE FOR '{table_name}'. STAGING TABLE DROPPED.")

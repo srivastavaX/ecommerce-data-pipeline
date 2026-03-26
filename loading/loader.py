@@ -54,8 +54,8 @@ CART_ITEMS_COLUMNS = [
     "price",
     "quantity",
     "total",
-    "discounted_price",
-    "discount_percentage"
+    "discounted_total",
+    "discounted_percentage"
 ]
 
 
@@ -66,30 +66,27 @@ def _validate(df: pd.DataFrame, required_columns: list, table_name: str, pk: str
     missing = set(required_columns) - set(df.columns)
     if missing:
         raise ValueError(
-            f"{table_name.upper()} DATAFRAME IS MISSING REQUIRED COLUMNS: {missing}"
+            f"{table_name.upper()} DATAFRAME IS MISSING REQUIRED COLUMNS: {missing}. "
             f"CHECK TRANSFORMATION LAYER OUTPUT FOR {table_name.upper()}."
         )
-    
+
     if pk and pk in df.columns:
         null_pks = df[pk].isnull().sum()
         if null_pks > 0:
             raise ValueError(
-                f"{table_name.upper()} DATAFRAME HAS {null_pks} NULL VALUES IN PRIMARY KEY COLUMN '{pk}'."
-                f"CHECK TRANSFORMATION LAYER OUTPUT FOR {table_name.upper()}."
-                f"DEDUPLICATE IN TRANSFORMATION LAYER"
+                f"{table_name.upper()} DATAFRAME HAS {null_pks} NULL VALUES IN PRIMARY KEY COLUMN '{pk}'. "
+                f"DEDUPLICATE IN TRANSFORMATION LAYER."
             )
-        
+
     logger.info(
-        f"[{table_name.upper()}] VALIDATION PASSED: {len(df)} RECORDS."
+        f"[{table_name.upper()}] VALIDATION PASSED: {len(df)} RECORDS. "
         f"{len(df.columns)} COLUMNS"
     )
 
 
-# INDIVIDUAL TABLE LOADERS
-
 def load_products(df: pd.DataFrame):
-    table = "products"
-    pk = "id"
+    table    = "raw.products"
+    pk       = "id"
 
     logger.info(f"STARTING LOAD FOR '{table}'...")
     df = df[[c for c in PRODUCTS_COLUMNS if c in df.columns]].copy()
@@ -101,23 +98,23 @@ def load_products(df: pd.DataFrame):
 
 
 def load_users(df: pd.DataFrame):
-    table = "users"
-    pk = "id"
+    table    = "raw.users"
+    pk       = "id"
 
-    logger.info(f"STARTING LOAD FOR '{table.upper()}'...")
+    logger.info(f"STARTING LOAD FOR '{table}'...")
     df = df[[c for c in USERS_COLUMNS if c in df.columns]].copy()
     _validate(df, USERS_COLUMNS, table, pk)
 
     engine = get_engine()
     upsert_dataframe(df, table, pk, engine)
-    logger.info(f"'{table.upper()}' LOAD COMPLETe.\n")
+    logger.info(f"'{table.upper()}' LOAD COMPLETE.\n")
 
 
 def load_carts(df: pd.DataFrame):
-    table = "carts"
-    pk = "id"
+    table    = "raw.carts"
+    pk       = "id"
 
-    logger.info(f"STARTING LOAD FOR '{table.upper()}'...")
+    logger.info(f"STARTING LOAD FOR '{table}'...")
     df = df[[c for c in CARTS_COLUMNS if c in df.columns]].copy()
     _validate(df, CARTS_COLUMNS, table, pk)
 
@@ -127,17 +124,15 @@ def load_carts(df: pd.DataFrame):
 
 
 def load_cart_items(df: pd.DataFrame):
-    """
-    Load flattened cart items into the `cart_items` table.
-    Note: cart_items has a composite PK (cart_id, product_id).
-    """
-    table = "cart_items"
-    logger.info(f"STARTING LOAD FOR '{table.upper()}'...")
+    table   = "raw.cart_items"
+    base_name = table.split(".")[-1]
+    staging = f"{base_name}_staging"
 
+    logger.info(f"STARTING LOAD FOR '{table}'...")
     df = df[[c for c in CART_ITEMS_COLUMNS if c in df.columns]].copy()
 
     if df.empty:
-        raise ValueError(f"[{table.upper()}] DATAfRAME IS EMPTY — NOTHING TO LOAD.")
+        raise ValueError(f"[{table.upper()}] DATAFRAME IS EMPTY — NOTHING TO LOAD.")
 
     missing = set(CART_ITEMS_COLUMNS) - set(df.columns)
     if missing:
@@ -146,13 +141,10 @@ def load_cart_items(df: pd.DataFrame):
     logger.info(f"[{table.upper()}] VALIDATION PASSED: {len(df)} ROWS.")
 
     engine = get_engine()
-    staging = f"{table}_staging"
 
     with engine.begin() as conn:
-        # Load to staging
         df.to_sql(staging, conn, if_exists="replace", index=False)
 
-        # Upsert with composite PK
         update_cols = [c for c in CART_ITEMS_COLUMNS if c not in ("cart_id", "product_id")]
         set_clause  = ", ".join(f"{c} = EXCLUDED.{c}" for c in update_cols)
 
@@ -168,18 +160,12 @@ def load_cart_items(df: pd.DataFrame):
     logger.info(f"'{table.upper()}' LOAD COMPLETE.\n")
 
 
-# ─── Orchestrator ─────────────────────────────────────────────────────────────
-
 def load_all(
     products_df:   pd.DataFrame,
     users_df:      pd.DataFrame,
     carts_df:      pd.DataFrame,
     cart_items_df: pd.DataFrame,
 ):
-    """
-    Runs all table loaders in dependency order:
-      users → products → carts → cart_items
-    """
     logger.info("=" * 50)
     logger.info("LOADING LAYER: STARTING FULL LOAD...")
     logger.info("=" * 50)

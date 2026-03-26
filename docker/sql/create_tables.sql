@@ -28,12 +28,12 @@ CREATE TABLE IF NOT EXISTS raw.users (
     image TEXT,
     city TEXT,
     state TEXT,
-    country TEXT,
+    country TEXT
 );
 
 CREATE TABLE IF NOT EXISTS raw.carts (
     id INT PRIMARY KEY,
-    user_id INT NOT NULL REFERENCES raw.users(id),
+    user_id INT NOT NULL,
     total NUMERIC(10, 2),
     discounted_total NUMERIC(10, 2),
     total_products INT,
@@ -41,14 +41,14 @@ CREATE TABLE IF NOT EXISTS raw.carts (
 );
 
 CREATE TABLE IF NOT EXISTS raw.cart_items (
-    cart_id INT NOT NULL REFERENCES raw.carts(id),
-    product_id INT NOT NULL REFERENCES raw.products(id),
+    cart_id INT NOT NULL,
+    product_id INT NOT NULL,
     title TEXT,
     price NUMERIC(10, 2),
     quantity INT,
     total NUMERIC(10, 2),
-    discounted_price NUMERIC(10, 2),
-    discount_percentage NUMERIC(5, 2),
+    discounted_total NUMERIC(10, 2),
+    discounted_percentage NUMERIC(5, 2),
 
     PRIMARY KEY (cart_id, product_id)  -- composite pk
 );
