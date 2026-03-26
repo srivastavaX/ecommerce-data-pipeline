@@ -1,6 +1,7 @@
 import logging
 import schedule
 import time
+import os
 
 from ingestion.api_client import fetch_all
 from storage.storage import save_all, load_all
@@ -10,10 +11,19 @@ from loading.db_engine import dispose_engine
 from ml.ml import run_ml
 
 
+
+LOG_DIR = "logs"
+os.makedirs(LOG_DIR, exist_ok=True)
+LOG_FILE = os.path.join(LOG_DIR, "pipeline.log")
+
 logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s | %(levelname)-8s | %(message)s",
     datefmt="%Y-%m-%d %H:%M:%S",
+    handlers=[
+        logging.FileHandler(LOG_FILE),
+        logging.StreamHandler()
+    ]
 )
 logger = logging.getLogger(__name__)
 
